@@ -1,12 +1,17 @@
 <template>
   <q-page padding>
     <!-- content -->
+    <dashboard />
   </q-page>
 </template>
 
 <script>
+import dashboard from 'components/dashboard/index'
 export default {
-  // name: 'PageName',
+  name: 'Dashboard',
+  components:{
+    dashboard
+  }
 }
 </script>
 

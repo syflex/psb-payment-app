@@ -3,6 +3,7 @@
 
 module.exports = function (ctx) {
   return {
+    preFetch: true,
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -48,11 +49,17 @@ module.exports = function (ctx) {
         'QItemLabel',
         'QInput',
         'QCard',
-        'QCardSection'
+        'QCardSection',
+        'QDialog',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QSpace'
       ],
 
       directives: [
-        'Ripple'
+        'Ripple','ClosePopup'
       ],
 
       // Quasar plugins

@@ -6,7 +6,10 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  preFetch ({ store }) {
+    store.dispatch('balance/get_balance');
+  },
 }
 </script>
 
