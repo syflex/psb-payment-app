@@ -12,11 +12,9 @@
 
         <div>
           <q-btn color="white" text-color="black" label="home" :to="{name: 'home'}"/>
+          <q-btn color="white" text-color="black" label="suppliers" :to="{name: 'suppliers'}"/>
            <q-btn color="white" text-color="black" label="Login" :to="{name: 'login'}"/>
           
-          <span>
-            psb-payment v{{ $q.version }}
-          </span>
         </div>
       </q-toolbar>
     </q-header>

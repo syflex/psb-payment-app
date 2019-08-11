@@ -1,27 +1,74 @@
 <template>
-  <div>
-    
+  <div class="q-pa-md">
+    <q-table square="" title="Transfer List" :data="suppliers" :columns="columns" :filter="filter" row-key="name">
+      <template v-slot:top>
+        <span>Suppliers List</span>
+        <q-space />
+        <q-input outlined="" dense debounce="300"  v-model="filter" color="primary">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+        <addSupplier />
+        <q-btn class="on-right" flat dense color="primary" label="Refresh" @click="get_recipient"/>
+      </template>
+
+       <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="name" :props="props">{{ props.row.name }}</q-td>
+          <q-td key="bank" :props="props">{{ props.row.details.bank_name }}</q-td>
+          <q-td key="account_number" :props="props">{{ props.row.details.account_number }}</q-td>
+          <q-td key="currency" :props="props">{{ props.row.currency }}</q-td>
+          <q-td key="createdAt" :props="props">{{ props.row.createdAt }}</q-td>
+          <q-td key="action" :props="props" class="q-gutter-sm">
+            <updateSupplier :id="props.row.id" :name="props.name" :email="props.email"/>
+            <deleteSupplier :id="props.row.id"/>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 
 <script>
+import addSupplier from './add'
+import updateSupplier from './update'
+import deleteSupplier from './delete'
 export default {
   // name: 'ComponentName',
   data () {
     return {
-
+      filter: '',
+      suppliers: [],
+      columns: [
+        { name: 'name', required: true, label: 'Supplier Name', align: 'left', field: row => row.name,sortable: true},
+        { name: 'bank', align: 'center', label: 'Bank', field: row => row.details.bank_name, sortable: true },
+        { name: 'account_number', align: 'center', label: 'Account Number', field: row => row.details.account_number, sortable: true },
+        { name: 'currency', label: 'Currency', field: 'currency' },
+        { name: 'createdAt', label: 'Date', field: 'createdAt', sortable: true},
+        { name: 'action', label: 'Action', field: 'id'},
+      ],
     }
+  },
+  components:{
+    addSupplier,deleteSupplier,updateSupplier
+  },
+
+  mounted() {
+    this.get_recipient();
   },
 
   methods: {
     async get_recipient() {
       try {
         const res = await this.$axios.get('https://api.paystack.co/transferrecipient')
+        this.suppliers = res.data.data
       } catch (error) {
-        
+
       }
-    }, 
+    },
   },
+
 }
 </script>
 
