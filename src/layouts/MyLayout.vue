@@ -11,7 +11,7 @@
         </q-toolbar-title>
 
         <div>
-          <q-btn color="white" text-color="black" label="dashboard" :to="{name: 'dashboard'}"/>
+          <q-btn color="white" text-color="black" label="home" :to="{name: 'home'}"/>
            <q-btn color="white" text-color="black" label="Login" :to="{name: 'login'}"/>
           
           <span>

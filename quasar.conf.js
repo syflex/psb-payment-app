@@ -8,7 +8,8 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'i18n',
-      'axios'
+      'axios',
+      'vee-validate'
     ],
 
     css: [
@@ -50,12 +51,16 @@ module.exports = function (ctx) {
         'QInput',
         'QCard',
         'QCardSection',
+        'QCardActions',
         'QDialog',
         'QTable',
         'QTh',
         'QTr',
         'QTd',
-        'QSpace'
+        'QSpace',
+        'QTooltip',
+        'QBar',
+        'QSelect'
       ],
 
       directives: [
@@ -64,7 +69,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify','Dialog'
       ]
     },
 
