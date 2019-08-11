@@ -1,13 +1,26 @@
 <template>
-  <div>My component</div>
+  <div>
+    {{balance}}
+    <loadWallet />
+  </div>
 </template>
 
 <script>
+import loadWallet from './partials/load-wallet'
 export default {
   // name: 'ComponentName',
   data () {
     return {}
-  }
+  },
+
+  components:{
+    loadWallet
+  },
+
+  computed: {
+    balance: function() {return this.$store.getters['balance/balance']},
+    currency: function() {return this.$store.getters['balance/currency']}
+  },
 }
 </script>
 

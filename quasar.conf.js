@@ -4,6 +4,7 @@
 module.exports = function (ctx) {
   return {
     preFetch: true,
+    
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -78,7 +79,7 @@ module.exports = function (ctx) {
 
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,

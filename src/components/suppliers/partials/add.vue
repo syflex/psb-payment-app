@@ -41,7 +41,10 @@ export default {
         account_number: '',
         bank_code: '',
         currency: 'NGN',
-        description: ''
+        description: '',
+        metadata: {
+          company_name: '', phone: '', address: ''
+        }
       },
     }
   },

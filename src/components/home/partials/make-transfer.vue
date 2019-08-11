@@ -38,6 +38,7 @@
 
         <q-card-section>
           <q-input square dense outlined v-model="finalize.otp" label="Enter OTP"/>
+          <q-btn size="sm" flat dense label="Resend OTP" @click="resend_otp"/>
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
@@ -104,6 +105,18 @@ export default {
         res.data.data.forEach(data => {
           this.suppliers.push({value: data.recipient_code, label: data.name})
         });
+      } catch (error) {
+
+      }
+    },
+
+    async resend_otp(){
+      try {
+        const finalize_res = await this.$axios.post('https://api.paystack.co/transfer/resend_otp', 
+        {
+          reason: this.form.reason,
+          transfer_code: this.finalize.transfer_code
+        })
       } catch (error) {
 
       }

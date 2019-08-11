@@ -13,8 +13,10 @@
         <div>
           <q-btn color="white" text-color="black" label="home" :to="{name: 'home'}"/>
           <q-btn color="white" text-color="black" label="suppliers" :to="{name: 'suppliers'}"/>
-           <q-btn color="white" text-color="black" label="Login" :to="{name: 'login'}"/>
-          
+          <q-btn color="white" text-color="black" label="wallet" :to="{name: 'wallet'}"/>
+          <q-btn color="white" text-color="black" label="dashboard" :to="{name: 'dashboard'}"/>
+          <q-btn color="white" text-color="black" label="Login" :to="{name: 'login'}"/>  
+          <q-btn color="white" text-color="black" label="settings"/>
         </div>
       </q-toolbar>
     </q-header>
@@ -60,6 +62,7 @@ export default {
       leftDrawerOpen: false
     }
   },
+
   methods: {
     openURL
   }
