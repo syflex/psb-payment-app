@@ -1,16 +1,16 @@
 <template>
   <div>
-    <q-card class="my-card">
+    <q-card class="text-center">
         <q-card-section class="text-h3">
             Transfers Stats
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             total: {{total}}
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             success: {{success}}
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             failure: {{total - success}}
         </q-card-section>
     </q-card>

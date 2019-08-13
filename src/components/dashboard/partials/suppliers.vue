@@ -1,16 +1,16 @@
 <template>
   <div>
-    <q-card class="my-card">
+    <q-card class="text-center">
         <q-card-section class="text-h3">
             Suppliers Stats
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             total: {{total}}
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             Active: {{active}}
         </q-card-section>
-        <q-card-section>
+        <q-card-section class="text-h5">
             In-Active: {{total - active}}
         </q-card-section>
     </q-card>
