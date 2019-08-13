@@ -90,8 +90,12 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {
-        
-      }
+      },
+
+      env: {
+        AUTH_API: ctx.dev ? JSON.stringify('http://psb-api.test') : JSON.stringify('https://psb-api.cairygo.com'),
+        BASE_URL: ctx.dev ? JSON.stringify('https://api.paystack.co') : JSON.stringify('https://api.paystack.co'),
+      },
     },
 
     devServer: {

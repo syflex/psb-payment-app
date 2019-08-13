@@ -2,9 +2,25 @@
   <div class="flex flex-center">
 
       <q-card style="max-width: 500px">
+        <q-card-section>
+          <p>Note:</p>
+          <p>
+            Please login with email: admin@psb.com and password: secret
+          </p>
+          <p>
+            All entry goes to and fro paystack API except AUTH
+          </p>
+           <p>
+            Anytime you reload the page you will be required to loin again <br> 
+            but its a SPA app so you should be  fine navigating without reloading
+          </p>
+          <p>
+            have fun making transfers to your suppliers with ease :)
+          </p>
+        </q-card-section>
       <q-card-section class="q-gutter-sm">
         <q-input square dense="" outlined v-model="form.email" label="Email" />
-        <q-input square dense="" outlined v-model="form.password" label="Password" />
+        <q-input square dense="" type="password" outlined v-model="form.password" label="Password" />
         <q-btn color="primary" label="Login" @click="login" :loading="loading"/>
       </q-card-section>
       </q-card>
