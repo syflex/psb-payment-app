@@ -18,7 +18,7 @@ export default {
   components:{
     transferList
   },
-  
+
   computed: {
     balance: function() {return this.$store.getters['balance/balance']},
     currency: function() {return this.$store.getters['balance/currency']}

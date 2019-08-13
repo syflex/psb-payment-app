@@ -1,0 +1,53 @@
+<template>
+  <div>
+    <q-card class="my-card">
+        <q-card-section class="text-h3">
+            Transfers Stats
+        </q-card-section>
+        <q-card-section>
+            total: {{total}}
+        </q-card-section>
+        <q-card-section>
+            success: {{success}}
+        </q-card-section>
+        <q-card-section>
+            failure: {{total - success}}
+        </q-card-section>
+    </q-card>
+  </div>
+</template>
+
+<script>
+export default {
+  // name: 'ComponentName',
+  data () {
+    return {
+      total: 0,
+      success: 0,
+    }
+  },
+
+  mounted() {
+      this.get_transfers()
+  },
+
+  methods: {
+      async get_transfers() {
+        try {
+          const res = await this.$axios.get('https://api.paystack.co/transfer')
+          this.total = res.data.data.length
+          res.data.data.forEach(data => {
+              if(data.status == 'success'){
+                  this.success += 1
+              }
+          });
+        } catch (error) {
+
+        }
+    },
+  },
+}
+</script>
+
+<style>
+</style>

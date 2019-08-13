@@ -10,7 +10,8 @@ const routes = [
       { path: 'suppliers', name: 'suppliers', component: () => import('pages/suppliers.vue') },
       { path: 'wallet', name: 'wallet', component: () => import('pages/wallet.vue') },
       { path: 'verify-payment', name: 'verify-payment', component: () => import('pages/verify-payment.vue') },
-      { path: 'dashboard', name: 'dashboard', component: () => import('pages/dashboard.vue') }
+      { path: 'dashboard', name: 'dashboard', component: () => import('pages/dashboard.vue') },
+      { path: 'settings', name: 'settings', component: () => import('pages/settings.vue') }
     ]
   }
 ]

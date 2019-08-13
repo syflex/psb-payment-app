@@ -10,7 +10,7 @@
           </template>
         </q-input>
         <addSupplier />
-        <q-btn class="on-right" flat dense color="primary" label="Refresh" @click="get_recipient"/>
+        <q-btn no-caps="" flat dense color="primary" label="Refresh" @click="get_recipient"/>
       </template>
 
        <template v-slot:body="props">
@@ -18,8 +18,7 @@
           <q-td key="name" :props="props">{{ props.row.name }}</q-td>
           <q-td key="bank" :props="props">{{ props.row.details.bank_name }}</q-td>
           <q-td key="account_number" :props="props">{{ props.row.details.account_number }}</q-td>
-          <q-td key="currency" :props="props">{{ props.row.currency }}</q-td>
-          <q-td key="createdAt" :props="props">{{ props.row.createdAt }}</q-td>
+          <q-td key="createdAt" :props="props">{{ date_func(props.row.createdAt) }}</q-td>
           <q-td key="action" :props="props" class="q-gutter-sm">
             <updateSupplier :id="props.row.id" :name="props.name" :email="props.email"/>
             <deleteSupplier :id="props.row.id"/>
@@ -34,6 +33,7 @@
 import addSupplier from './add'
 import updateSupplier from './update'
 import deleteSupplier from './delete'
+import { date } from "quasar";
 export default {
   // name: 'ComponentName',
   data () {
@@ -41,10 +41,9 @@ export default {
       filter: '',
       suppliers: [],
       columns: [
-        { name: 'name', required: true, label: 'Supplier Name', align: 'left', field: row => row.name,sortable: true},
+        { name: 'name', required: true, label: 'Supplier Name', align: 'left', field: row => row.name, sortable: true},
         { name: 'bank', align: 'center', label: 'Bank', field: row => row.details.bank_name, sortable: true },
         { name: 'account_number', align: 'center', label: 'Account Number', field: row => row.details.account_number, sortable: true },
-        { name: 'currency', label: 'Currency', field: 'currency' },
         { name: 'createdAt', label: 'Date', field: 'createdAt', sortable: true},
         { name: 'action', label: 'Action', field: 'id'},
       ],
@@ -67,8 +66,10 @@ export default {
 
       }
     },
-  },
-
+    date_func(date_value){
+        date.formatDate(date_value, 'Do MMM YYYY : h:mm')
+      }
+  }  
 }
 </script>
 

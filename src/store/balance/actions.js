@@ -7,7 +7,7 @@ export function get_balance ({commit}) {
             commit('balance', response.data.data);
             resolve(response);
         })
-        .catch(err => {        
+        .catch(err => {
             reject(err);
         })
     })

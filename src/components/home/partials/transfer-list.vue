@@ -12,7 +12,21 @@
         </q-input>
         <q-space />
         <makeTransfer />
-        <q-btn class="on-right" flat dense color="primary" label="Refresh" @click="get_transfers"/>
+        <q-btn no-caps flat class="on-right" color="primary" label="Refresh" @click="get_transfers"/>
+      </template>
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="name" :props="props">{{ props.row.recipient.name }}</q-td>
+          <q-td key="bank" :props="props">{{ props.row.recipient.details.bank_name }}</q-td>
+          <q-td key="account_number" :props="props">{{ props.row.recipient.details.account_number }}</q-td>
+          <q-td key="amount" :props="props">{{ currency_func(props.row.amount)+'.00' }}</q-td>
+          <q-td key="currency" :props="props">{{ props.row.currency }}</q-td>
+          <q-td key="reason" :props="props">{{ props.row.reason }}</q-td>
+          <q-td key="status" :props="props">
+            <q-badge square :color="props.row.status == 'success' ? 'positive' : 'negative'">{{ props.row.status }}</q-badge>
+          </q-td>
+          <q-td key="createdAt" :props="props">{{ date_func(props.row.createdAt) }}</q-td>
+        </q-tr>
       </template>
     </q-table>
   </div>
@@ -20,6 +34,7 @@
 
 <script>
 import makeTransfer from './make-transfer'
+import { date } from "quasar";
 export default {
   // name: 'ComponentName',
   data () {
@@ -27,10 +42,7 @@ export default {
       filter: '',
       transfers: [],
       columns: [
-        {
-          name: 'name', required: true, label: 'Racipient Name', align: 'left', field: row => row.recipient.name,sortable: true
-          // format: val => `${val}`,
-        },
+        { name: 'name', required: true, label: 'Racipient Name', align: 'left', field: row => row.recipient.name,sortable: true },
         { name: 'bank', align: 'center', label: 'Bank', field: row => row.recipient.details.bank_name, sortable: true },
         { name: 'account_number', align: 'center', label: 'Account Number', field: row => row.recipient.details.account_number, sortable: true },
         { name: 'amount', label: 'Amount', field: 'amount' },
@@ -38,13 +50,12 @@ export default {
         { name: 'reason', label: 'Reason', field: 'reason' },
         { name: 'status', label: 'Status', field: 'status' },
         { name: 'createdAt', label: 'Date', field: 'createdAt', sortable: true},
-        // { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
     }
   },
 
    mounted() {
-    this.get_transfers()
+    this.get_transfers();
   },
 
   components:{
@@ -59,9 +70,17 @@ export default {
         } catch (error) {
 
         }
+    },
+
+    date_func(data){
+      date.formatDate(data, 'Do MMM YYYY : h:mm')
+    },
+
+    currency_func(data){
+        let amount =  data.toString()
+      Number(amount.substring(0, amount.length-2)).toLocaleString()
     }
   },
-
 }
 </script>
 

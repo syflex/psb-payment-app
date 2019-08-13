@@ -4,7 +4,7 @@
 module.exports = function (ctx) {
   return {
     preFetch: true,
-    
+
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -62,7 +62,12 @@ module.exports = function (ctx) {
         'QTooltip',
         'QBar',
         'QSelect',
-        'QBadge'
+        'QBadge',
+        'QList',
+        'QItem',
+        'QItemSection',
+        'QItemLabel',
+        'QToggle'
       ],
 
       directives: [

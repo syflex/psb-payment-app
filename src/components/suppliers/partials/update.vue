@@ -17,7 +17,7 @@
         <q-card-section class="q-gutter-sm">
           <q-input square dense outlined v-model="form.name" label="Supplier Full Name" />
           <q-input square dense outlined v-model="form.email" label="Email" />
-          <q-btn color="primary" no-caps="" label="Update Supplier" @click="update_recipient" />
+          <q-btn color="primary" no-caps="" label="Update Supplier" @click="update_recipient" :loading="loading"/>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -32,6 +32,7 @@ export default {
   data () {
     return {
       open: false,
+      loading: false,
       form:{
         name: this.name || '',
         email: this.email || '',
@@ -41,10 +42,17 @@ export default {
 
   methods: {
     async update_recipient() {
+      this.loading = true
       try {
         const res = await this.$axios.put(`https://api.paystack.co/transferrecipient/${this.id}`, this.form)
+        this.form.name = ''
+        this.form.email = ''
+        this.open = false
+        this.loading = false
+        this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {
-
+        this.loading = false
+        this.$q.notify({message: error.data.message, position : 'bottom-left', color: 'negative'})
       }
     },
 
