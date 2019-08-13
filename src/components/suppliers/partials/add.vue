@@ -15,9 +15,12 @@
         </q-bar>
 
         <q-card-section class="q-gutter-sm">
-          <q-input square dense outlined v-model="form.name" label="Supplier Full Name" />
-          <q-select square dense outlined v-model="form.bank_code" :options="banks" emit-value label="Select Bank" />
-          <q-input square dense outlined v-model="form.account_number" label="Account Number" />
+           <ul>
+            <li v-for="error in errors_list" :key="error.id" class="text-negative">{{ error }}</li>
+          </ul>
+          <q-input square dense outlined name="supplier" v-validate="'required'" v-model="form.name" label="Supplier Full Name" />
+          <q-select square dense outlined name="bank" v-validate="'required'" v-model="form.bank_name" :options="banks" label="Select Bank" @input="selected"/>
+          <q-input square dense outlined name="account-number" v-validate="'required'" v-model="form.account_number" label="Account Number" />
           <q-input square dense outlined v-model="form.metadata.company_name" label="Company Name" />
           <q-input square dense outlined v-model="form.metadata.phone" label="Company Phone" />
           <q-input square dense outlined v-model="form.metadata.address" label="Company Address" />
@@ -43,12 +46,14 @@ export default {
         name: '',
         account_number: '',
         bank_code: '',
+        bank_name: '',
         currency: 'NGN',
         description: '',
         metadata: {
           company_name: '', phone: '', address: ''
         }
       },
+      errors_list: null
     }
   },
 
@@ -58,6 +63,12 @@ export default {
 
   methods: {
     async add_recipient() {
+      this.errors_list = null;
+      let error = await this.$validator.validateAll();
+      if (!error) {
+        this.errors_list = this.errors.all()
+        return
+      }
       this.loading = true
       try {
         let resolve = await this.resolve_account_number()
@@ -87,18 +98,23 @@ export default {
       try {
         const res = await this.$axios.get(`https://api.paystack.co/bank/resolve?account_number=${this.form.account_number}&bank_code=${this.form.bank_code}`)
       } catch (error) {
-        
+
       }
     },
 
+    selected(selected){
+      this.form.bank_code = selected.value
+      this.form.bank_name = selected.label
+    },
+
     clear_form(){
-        this.form.name = '',
-        this.form.account_number = '',
-        this.form.bank_code = '',
-        this.form.currency = 'NGN',
-        this.form.description = '',
-        this.form.metadata.company_name = '',
-        this.form.metadata. phone = '',
+        this.form.name = ''
+        this.form.account_number = ''
+        this.form.bank_code = ''
+        this.form.currency = 'NGN'
+        this.form.description = ''
+        this.form.metadata.company_name = ''
+        this.form.metadata. phone = ''
         this.form.metadata.address = ''
     }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+     <q-btn v-if="loading == true" size="lg" flat :loading="loading"/>
   </div>
 </template>
 
@@ -9,7 +9,9 @@ export default {
   props:['reference'],
   // name: 'ComponentName',
   data () {
-    return {}
+    return {
+      loading: false,
+      }
   },
 
   mounted() {
@@ -18,7 +20,17 @@ export default {
 
   methods: {
     async verify_payment(){
-        const res = await this.$axios.get(`https://api.paystack.co/transaction/verify/${this.reference}`)
+        try {
+          this.loading = true
+          const res = await this.$axios.get(`https://api.paystack.co/transaction/verify/${this.reference}`)
+          this.$q.notify({message: 'payment successful', position : 'bottom-left', color: 'positive'})
+          this.loading = true
+          this.$router.push({name: 'wallet'})
+        } catch (error) {
+          this.$q.notify({message: 'payment error', position : 'bottom-left', color: 'negative'})
+          this.$router.push({name: 'wallet'})
+        }
+
     }
   },
 }

@@ -20,7 +20,6 @@
           <q-td key="bank" :props="props">{{ props.row.recipient.details.bank_name }}</q-td>
           <q-td key="account_number" :props="props">{{ props.row.recipient.details.account_number }}</q-td>
           <q-td key="amount" :props="props">{{ currency_func(props.row.amount)+'.00' }}</q-td>
-          <q-td key="currency" :props="props">{{ props.row.currency }}</q-td>
           <q-td key="reason" :props="props">{{ props.row.reason }}</q-td>
           <q-td key="status" :props="props">
             <q-badge square :color="props.row.status == 'success' ? 'positive' : 'negative'">{{ props.row.status }}</q-badge>
@@ -36,7 +35,6 @@
 import makeTransfer from './make-transfer'
 import { date } from "quasar";
 export default {
-  // name: 'ComponentName',
   data () {
     return {
       filter: '',
@@ -46,7 +44,6 @@ export default {
         { name: 'bank', align: 'center', label: 'Bank', field: row => row.recipient.details.bank_name, sortable: true },
         { name: 'account_number', align: 'center', label: 'Account Number', field: row => row.recipient.details.account_number, sortable: true },
         { name: 'amount', label: 'Amount', field: 'amount' },
-        { name: 'currency', label: 'Currency', field: 'currency' },
         { name: 'reason', label: 'Reason', field: 'reason' },
         { name: 'status', label: 'Status', field: 'status' },
         { name: 'createdAt', label: 'Date', field: 'createdAt', sortable: true},
@@ -73,12 +70,12 @@ export default {
     },
 
     date_func(data){
-      date.formatDate(data, 'Do MMM YYYY : h:mm')
+      return date.formatDate(data, 'Do MMM YYYY : h:mm')
     },
 
     currency_func(data){
         let amount =  data.toString()
-      Number(amount.substring(0, amount.length-2)).toLocaleString()
+      return Number(amount.substring(0, amount.length-2)).toLocaleString()
     }
   },
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="text-center">
-    <div class="text-h1">{{currency_func(balance)+'.00'}}</div>
+    <div class="text-h4">Current Wallet Balance</div>
+    <div class="text-h2">{{currency_func(balance)+'.00'}}</div>
     <loadWallet />
   </div>
 </template>
@@ -17,9 +18,12 @@ export default {
     loadWallet
   },
 
+created() {
+  this.$store.dispatch('balance/get_balance');
+},
+
   computed: {
-    balance: function() {return this.$store.getters['balance/balance']},
-    currency: function() {return this.$store.getters['balance/currency']}
+    balance: function() {return this.$store.getters['balance/balance']}
   },
 
   methods: {

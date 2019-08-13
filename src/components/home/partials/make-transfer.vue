@@ -17,12 +17,15 @@
 
         <q-card-section>
           <div class="text-h6 text-center">Current Balance</div>
-          <div class="text-h6 text-center text-weight-bold">{{currency_func(balance)+'.00'}}</div>
+          <div class="text-h6 text-center text-weight-bold">{{currency_func(balance ? balance : '000')+'.00'}}</div>
         </q-card-section>
 
         <q-card-section class="q-gutter-sm">
-          <q-select square dense outlined  v-model="form.recipient_name" :options="suppliers" label="Select Supplier" @input="selected"/>
-          <q-input square dense outlined  v-model.number="amount" prefix="₦" suffix=".00" label="Amount" />
+          <ul>
+            <li v-for="error in errors_list" :key="error.id" class="text-negative">{{ error }}</li>
+          </ul>
+          <q-select square dense outlined name="supplier" v-validate="'required'" v-model="form.recipient_name" :options="suppliers" label="Select Supplier" @input="selected"/>
+          <q-input square dense outlined name="amount" v-validate="'required'" v-model.number="amount" prefix="₦" suffix=".00" label="Amount" />
           <q-input square outlined type="textarea" rows="2" v-model="form.reason" label="Reason for the transfer" />
           <q-btn color="primary" no-caps="" label="Transfer" @click="transfer" :loading="loading"/>
         </q-card-section>
@@ -70,13 +73,13 @@ export default {
       finalize:{
         otp: '',
         transfer_code: ''
-      }
+      },
+      errors_list: null,
     }
   },
 
   computed: {
-    balance: function() {return this.$store.getters['balance/balance']},
-    currency: function() {return this.$store.getters['balance/currency']},
+    balance: function() {return this.$store.getters['balance/balance']}
   },
 
   mounted() {
@@ -85,7 +88,13 @@ export default {
 
   methods: {
 
-    transfer(){
+    async transfer(){
+      this.errors_list = null;
+      let error = await this.$validator.validateAll();
+      if (!error) {
+        this.errors_list = this.errors.all()
+        return
+      }
       this.loading = true
       this.showDialog()
     },
@@ -93,7 +102,7 @@ export default {
     showDialog () {
       this.$q.dialog({
         title: 'Confirm Transfer',
-        message: `Are your sure you want to send <strong class="text-red">${this.amount}</strong> to  <strong>${this.form.recipient_name}</strong>`,
+        message: `You are about to transfer <strong class="text-red">${this.amount}</strong> to  <strong>${this.form.recipient_name}</strong> click ok to confirm`,
         html: true,
         cancel: true,
         persistent: true
@@ -120,13 +129,13 @@ export default {
     async finalize_transfer(){
       try {
         const finalize_res = await this.$axios.post('https://api.paystack.co/transfer/finalize_transfer', this.finalize)
+        this.$q.notify({message: finalize_res.data.message, position : 'bottom-left', color: 'positive'})
         this.clear_form()
         this.open_otp = false
         this.open = false
         this.loading = false
-        this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {
-        this.open = false
+        this.open_otp = false
         this.loading = false
         this.$q.notify({message: error.data.message, position : 'bottom-left', color: 'negative'})
       }
@@ -164,13 +173,14 @@ export default {
     },
 
     clear_form(){
-      this.amount = null,
-      this.form.amount = null,
-      this.form.reason = '',
-      this.form.recipient = '',
-      this.form.recipient_name = '',
-      this.finalize.otp = '',
+      this.amount = null
+      this.form.amount = null
+      this.form.reason = ''
+      this.form.recipient = ''
+      this.form.recipient_name = ''
+      this.finalize.otp = ''
       this.finalize.transfer_code = ''
+      this.errors_list = null
     },
 
     currency_func(data){
