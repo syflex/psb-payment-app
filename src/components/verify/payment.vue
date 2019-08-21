@@ -1,6 +1,6 @@
 <template>
   <div>
-     <q-btn v-if="loading == true" size="lg" flat :loading="loading"/>
+     <q-btn flat color="primary" v-if="loading == true" size="xl" :loading="loading"/>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     async verify_payment(){
         try {
           this.loading = true
-          const res = await this.$axios.get(`https://api.paystack.co/transaction/verify/${this.reference}`)
+          const res = await this.$axios.get(`${process.env.BASE_URL}/transaction/verify/${this.reference}`)
           this.$q.notify({message: 'payment successful', position : 'bottom-left', color: 'positive'})
           this.loading = true
           this.$router.push({name: 'wallet'})

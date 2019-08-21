@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-btn size="sm" no-caps="" color="white" text-color="black" label="Update" @click="open = true"/>
+    <q-btn size="sm" no-caps="" color="info" label="Update" @click="open = true"/>
 
     <q-dialog square v-model="open" persistent transition-show="flip-down" transition-hide="flip-up">
       <q-card>
@@ -44,7 +44,7 @@ export default {
     async update_recipient() {
       this.loading = true
       try {
-        const res = await this.$axios.put(`https://api.paystack.co/transferrecipient/${this.id}`, this.form)
+        const res = await this.$axios.put(`${process.env.BASE_URL}/transferrecipient/${this.id}`, this.form)
         this.form.name = ''
         this.form.email = ''
         this.open = false

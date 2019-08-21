@@ -34,7 +34,7 @@ export default {
   methods: {
       async get_suppliers() {
         try {
-          const res = await this.$axios.get('https://api.paystack.co/transferrecipient')
+          const res = await this.$axios.get(`${process.env.BASE_URL}/transferrecipient`)
           this.total = res.data.data.length
           res.data.data.forEach(data => {
               if(data.active){

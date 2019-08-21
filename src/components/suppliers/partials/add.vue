@@ -72,7 +72,7 @@ export default {
       this.loading = true
       try {
         let resolve = await this.resolve_account_number()
-        const res = await this.$axios.post('https://api.paystack.co/transferrecipient',this.form)
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transferrecipient`,this.form)
         this.clear_form()
         this.open = false
         this.loading = false
@@ -85,7 +85,7 @@ export default {
 
     async get_bank_list() {
       try {
-        const res = await this.$axios.get('https://api.paystack.co/bank')
+        const res = await this.$axios.get(`${process.env.BASE_URL}/bank`)
         res.data.data.forEach(data => {
           this.banks.push({value: data.code, label: data.name})
         });
@@ -96,7 +96,7 @@ export default {
 
     async resolve_account_number(){
       try {
-        const res = await this.$axios.get(`https://api.paystack.co/bank/resolve?account_number=${this.form.account_number}&bank_code=${this.form.bank_code}`)
+        const res = await this.$axios.get(`${process.env.BASE_URL}/bank/resolve?account_number=${this.form.account_number}&bank_code=${this.form.bank_code}`)
       } catch (error) {
 
       }

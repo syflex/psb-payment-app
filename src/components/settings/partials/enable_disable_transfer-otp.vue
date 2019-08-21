@@ -50,7 +50,7 @@ export default {
 
     async disable_otp(){
       try {
-        const res = await this.$axios.post('https://api.paystack.co/transfer/disable_otp')
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transfer/disable_otp`)
         this.open_otp = true
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {
@@ -59,7 +59,7 @@ export default {
     },
     async finalize_disable_otp(){
       try {
-        const res = await this.$axios.post('https://api.paystack.co/transfer/disable_otp_finalize', this.otp)
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transfer/disable_otp_finalize`, this.otp)
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {
         this.$q.notify({message: error.data.message, position : 'bottom-left', color: 'negative'})
@@ -67,7 +67,7 @@ export default {
     },
      async enable_otp(){
       try {
-        const res = await this.$axios.post('https://api.paystack.co/transfer/enable_otp')
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transfer/enable_otp`)
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {
         this.$q.notify({message: error.data.message, position : 'bottom-left', color: 'negative'})

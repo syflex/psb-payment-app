@@ -15,7 +15,7 @@ export default {
     async delete_recipient(){
       this.loading = true
       try {
-        const res = this.$axios.delete('https://api.paystack.co/transferrecipient/'+ this.id)
+        const res = this.$axios.delete(`${process.env.BASE_URL}/transferrecipient/${this.id}`)
         this.loading = false
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
       } catch (error) {

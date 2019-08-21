@@ -45,7 +45,7 @@ export default {
     async login() {
       this.loading = true
       try {
-        const res = await this.$axios.post(process.env.AUTH_API + '/api/login', this.form)
+        const res = await this.$axios.post(`${process.env.AUTH_API}/api/login`, this.form)
         this.$store.commit('auth/user', res.data.user);
         this.loading = false
         this.$q.notify({message: 'login successful', position : 'bottom-left', color: 'positive'})

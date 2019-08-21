@@ -116,7 +116,7 @@ export default {
     async make_transfer(){
       try {
         this.form.amount = await Number(this.amount + '' + '00')
-        const res = await this.$axios.post('https://api.paystack.co/transfer',this.form)
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transfer`,this.form)
         this.finalize.transfer_code = res.data.data.transfer_code
         this.open_otp = true
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
@@ -128,7 +128,7 @@ export default {
 
     async finalize_transfer(){
       try {
-        const finalize_res = await this.$axios.post('https://api.paystack.co/transfer/finalize_transfer', this.finalize)
+        const finalize_res = await this.$axios.post(`${process.env.BASE_URL}/transfer/finalize_transfer`, this.finalize)
         this.$q.notify({message: finalize_res.data.message, position : 'bottom-left', color: 'positive'})
         this.clear_form()
         this.open_otp = false
@@ -143,7 +143,7 @@ export default {
 
      async get_recipient() {
       try {
-        const res = await this.$axios.get('https://api.paystack.co/transferrecipient')
+        const res = await this.$axios.get(`${process.env.BASE_URL}/transferrecipient`)
         res.data.data.forEach(data => {
           this.suppliers.push({value: data.recipient_code, label: data.name})
         });
@@ -155,7 +155,7 @@ export default {
     async resend_otp(){
       this.loading2 = true
       try {
-        const finalize_res = await this.$axios.post('https://api.paystack.co/transfer/resend_otp',{
+        const finalize_res = await this.$axios.post(`${process.env.BASE_URL}/transfer/resend_otp`,{
           reason: this.form.reason,
           transfer_code: this.finalize.transfer_code
         },true)

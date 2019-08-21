@@ -35,7 +35,7 @@ export default {
       open: false,
       loading: false,
       form:{
-        amount: 500000,
+        amount: '',
         email: 'admin@psb.com',
         transaction_charge: '75',
         callback_url: process.env.APP_URL+'verify-payment',
@@ -46,7 +46,7 @@ export default {
     async make_pay() {
       this.loading = true
       try {
-        const res = await this.$axios.post('https://api.paystack.co/transaction/initialize', this.form)
+        const res = await this.$axios.post(`${process.env.BASE_URL}/transaction/initialize`, this.form)
         openURL(res.data.data.authorization_url)
         this.loading = false
         this.$q.notify({message: res.data.message, position : 'bottom-left', color: 'positive'})
